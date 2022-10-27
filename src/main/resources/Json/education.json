@@ -1,0 +1,34 @@
+{
+	"education": [
+		"degree",
+		"bachelor",
+		"master",
+		"hsc",
+		"secondary",
+		"diploma",
+		"ssc",
+		"higher",
+		"inter",
+		"btech",
+		"mtech",
+		"b\\.tech",
+		"m\\.tech",
+		"m\\.c\\.a","mca",
+		"b\\.sc","bsc",
+		"mechanical",
+		"civil",
+		"bachelors",
+		"xii",
+		"x"
+		
+		
+	],
+	"exclude": [
+		"web technologies",
+		"project",
+		"interacting",
+		"design",
+		"interest",
+		"server"
+	]
+}
