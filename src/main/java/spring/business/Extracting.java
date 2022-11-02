@@ -42,7 +42,7 @@ public class Extracting {
 			// System.out.println(educationReader);
 			Pattern email_pattern = Pattern.compile(emailPattern);
 			Pattern mobile_pattern = Pattern.compile(mobilePattern);
-			Pattern dob_pattern = Pattern.compile(dobPattern);
+			Pattern dob_pattern = Pattern.compile(".*"+dobPattern+".*");
 			Pattern name_pattern = Pattern.compile(namePattern);
 
 			ObjectMapper educationMapper = new ObjectMapper();
@@ -70,6 +70,8 @@ public class Extracting {
 			for (Object textData : content_array) {
 				String line = (String) textData;
 				line = line.trim();
+				//
+				System.out.println(line);
 				Matcher email_matcher = email_pattern.matcher(line);
 				Matcher mobile_matcher = mobile_pattern.matcher(line);
 				Matcher dob_matcher = dob_pattern.matcher(line);
@@ -97,6 +99,7 @@ public class Extracting {
 					}
 
 				}
+				//System.out.println(line);
 				if (dob_matcher.find()) {
 					String dob = dob_matcher.group(1);
 					// System.out.println("DOB:" + dob);

@@ -11,8 +11,8 @@ import spring.model.CandidateDetails;
 import spring.model.UserLogin;
 
 @Repository
-public interface User_login_Repo extends JpaRepository<UserLogin, Integer> {
-	
+public interface UserLoginRepository extends JpaRepository<UserLogin, Integer> {
+
 	UserLogin findByEmailAndPassword(String email, String password);
 
 }

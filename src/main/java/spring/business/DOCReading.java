@@ -34,7 +34,7 @@ public class DOCReading {
 			} catch (Exception e) {
 			}
 		} 
-		else if (fileFormat.equals("c")) {
+		else if (fileFormat.equals("oc")) {
 			try {
 				HWPFDocument document = new HWPFDocument(file);
 				WordExtractor extractor = new WordExtractor(document);

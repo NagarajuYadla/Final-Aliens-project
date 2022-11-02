@@ -18,15 +18,15 @@ import spring.business.DOCReading;
 import spring.business.Extracting;
 import spring.business.PDFReading;
 import spring.model.CandidateDetails;
-import spring.repository.Candidate_Details_Repo;
-import spring.service.Candidate_Details_Service;
+import spring.repository.CandidateDetailsRepository;
+import spring.service.CandidateDetailsService;
 import spring.util.FileUploadUtil;
 
 
 @Service
-public class Candidate_Details_ServiceImplementation implements Candidate_Details_Service {
+public class CandidateDetailsServiceImplementation implements CandidateDetailsService {
 	@Autowired
-	private Candidate_Details_Repo candidate_repo;
+	private CandidateDetailsRepository candidate_repo;
 	
 	@Autowired
 	private Extracting pdr;
@@ -41,15 +41,30 @@ public class Candidate_Details_ServiceImplementation implements Candidate_Detail
 		//String filePath = "C:\\STS Workspace\\InHouseProject-ReadingFile_PDF\\src\\main\\resources\\File_Upload\\"+fileName;
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		long size = multipartFile.getSize();
-		Path filePath=FileUploadUtil.saveFile(fileName, multipartFile);
+		String fileFormat = fileName.toString().substring(fileName.toString().length()-2);
+		String fileFormatFull = null;
+		switch(fileFormat) {
+		case "df": 
+			fileFormatFull = "pdf";
+			break;
+		case "oc":
+			fileFormatFull = "doc";
+			break;
+		case "cx":
+			fileFormatFull = "docx";
+			break;
+		default:
+				break;
+		}
+		Path filePath=FileUploadUtil.saveFile(fileName, multipartFile, fileName, fileFormatFull);
 		
-		//dSystem.out.println(filePath);
+		//System.out.println(filePath);
 		List<String> content = new ArrayList<>();
-		
-		if (filePath.toString().contains("pdf")) {
+		//String path = filePath.toString();
+		if (fileFormat.equals("df")) {
 			content = pdf.readPDF(filePath.toString());
 		}
-		else if (filePath.toString().contains("doc")) {
+		else if (fileFormat.equals("cx") | fileFormat.equals("oc")) {
 			try {
 				content = doc.readDOC(filePath.toString());
 			} catch (FileNotFoundException e) {
@@ -74,18 +89,42 @@ public class Candidate_Details_ServiceImplementation implements Candidate_Detail
 
 		List<CandidateDetails> detailsList = candidate_repo.searchDetails(query.get("EDUCATION").toString(),
 				query.get("SKILLS").toString());
+		
 		//System.out.println(detailsList);
+		
 		return detailsList;
 	}
 	
-	// pagination
-	@Override
-	public List<CandidateDetails> findPaginated(int pageNo, int pageSize,List<CandidateDetails> candidateDetails) {
-		// TODO Auto-generated method stub
-		Pageable paging=PageRequest.of(pageNo, pageSize);
-		Page<CandidateDetails> pagedResult=candidate_repo.findAll(paging);
-		return pagedResult.toList();
-	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// pagination
+//	@Override
+//	public List<CandidateDetails> findPaginated(int pageNo, int pageSize,List<CandidateDetails> candidateDetails) {
+//		// TODO Auto-generated method stub
+//		Pageable paging=PageRequest.of(pageNo, pageSize);
+//		Page<CandidateDetails> pagedResult=candidate_repo.findAll(paging);
+//		return pagedResult.toList();
+//	}
+
+//	@Override
+//	public Page<CandidateDetails> findAll(int page, int size) {
+//		// TODO Auto-generated method stub
+//		  PageRequest pr = PageRequest.of(page,size);
+//		 
+//	        return candidate_repo.findAll(pr);
+//	}
+//	
 
 }

@@ -6,7 +6,7 @@
 		"hsc",
 		"secondary",
 		"diploma",
-		"ssc",
+		"s\\.s\\.c","ssc",
 		"higher",
 		"inter",
 		"btech",
@@ -18,10 +18,7 @@
 		"mechanical",
 		"civil",
 		"bachelors",
-		"xii",
-		"x"
-		
-		
+		"xii"
 	],
 	"exclude": [
 		"web technologies",
