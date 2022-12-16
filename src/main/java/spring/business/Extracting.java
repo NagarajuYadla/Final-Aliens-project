@@ -1,7 +1,9 @@
 package spring.business;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,6 +31,9 @@ public class Extracting {
 
 	@Value("${namePattern}")
 	private String namePattern;
+	
+	@Value("${experiencePattern}")
+	private String experiencePattern;
 
 	public JSONObject fieldExtraction(Object[] content_array) {
 		JSONObject jsonFormat_details = new JSONObject();
@@ -44,6 +49,9 @@ public class Extracting {
 			Pattern mobile_pattern = Pattern.compile(mobilePattern);
 			Pattern dob_pattern = Pattern.compile(".*"+dobPattern+".*");
 			Pattern name_pattern = Pattern.compile(namePattern);
+			Pattern experience_pattern = Pattern.compile(experiencePattern);
+			
+			
 
 			ObjectMapper educationMapper = new ObjectMapper();
 			ObjectMapper skillMapper = new ObjectMapper();
@@ -66,6 +74,9 @@ public class Extracting {
 
 			List<String> education_list1 = new ArrayList<>();
 			Set<String> education_set1 = new LinkedHashSet<>();
+			
+			List<String> experience_list = new ArrayList<>();
+			Set<String> experience_set = new LinkedHashSet<>();
 
 			for (Object textData : content_array) {
 				String line = (String) textData;
@@ -75,6 +86,8 @@ public class Extracting {
 				Matcher email_matcher = email_pattern.matcher(line);
 				Matcher mobile_matcher = mobile_pattern.matcher(line);
 				Matcher dob_matcher = dob_pattern.matcher(line);
+				Matcher experience_matcher = experience_pattern.matcher(line);
+				
 
 				if (email_matcher.find()) {
 					String email = email_matcher.group(0);
@@ -102,11 +115,32 @@ public class Extracting {
 				//System.out.println(line);
 				if (dob_matcher.find()) {
 					String dob = dob_matcher.group(1);
+//					SimpleDateFormat sf = new SimpleDateFormat("yyyy-dd-mm");
+//					Date date= new Date(dob);
+				    //System.out.println(sf.format(date));  
+
 					// System.out.println("DOB:" + dob);
 					if (!jsonFormat_details.containsKey("dob")) {
-						jsonFormat_details.put("DOB:", dob.toUpperCase());
+						jsonFormat_details.put("DOB:", dob);
+//						jsonFormat_details.put("DOB:", sf.format(date));
 					}
 				}
+//				// ----------------------------------------------->
+//				if (experience_matcher.find()) {
+//					String experience_details = experience_matcher.group(0);
+//					experience_set.add(experience_details);
+//				}
+//				experience_list.addAll(experience_set);
+//				List<String> experience_list_upper = experience_list.stream().map(String::toUpperCase)
+//						.collect(Collectors.toList());
+//				
+//				if (!jsonFormat_details.containsKey("experience")) {
+//					jsonFormat_details.put("EXPERIENCEDETAILS", experience_list_upper);
+//					System.out.println(experience_list_upper);
+//				}
+//				
+//				
+//				//------------------------------------------------------->
 				String skill = "";
 				String[] words = line.split(" ");
 				for (String word : words) {
@@ -148,6 +182,9 @@ public class Extracting {
 					if (education_matcher1.find()) {
 						education_set1.add(educations);
 					}
+					
+					
+					
 
 				}
 			}
@@ -166,6 +203,7 @@ public class Extracting {
 			if (!jsonFormat_details.containsKey("Education")) {
 				jsonFormat_details.put("EDUCATION", education_list_upper1);
 			}
+				
 
 		} catch (Exception e) {
 			// TODO: handle exception

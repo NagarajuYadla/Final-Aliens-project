@@ -1,8 +1,13 @@
 package spring.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +25,14 @@ public class UserLogin {
 	private String email;
 	private String password;
 	private String name;
+	@CreationTimestamp
+    private LocalDateTime dateCreated;
+    @UpdateTimestamp
+    private LocalDateTime dateUpdated;
 	@Override
 	public String toString() {
-		return "UserLogin [email=" + email + ", password=" + password + ", name=" + name + "]";
+		return "UserLogin [email=" + email + ", password=" + password + ", name=" + name + ", dateCreated="
+				+ dateCreated + ", dateUpdated=" + dateUpdated + "]";
 	}
 	
 	
